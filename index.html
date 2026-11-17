@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>말코닉 브랜드스토어 리뉴얼 미리보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 레이아웃: 스토어에 들어가는 순서대로 묶음 5개. 배너는 PC·모바일을 나란히, 쇼핑스토리는 실제 흐름(영상 자리 포함) + 오른쪽 장면표.
+   본사 로고 애니메이션 배경색을 바탕으로 쓴 단일 다크 테마 */
+:root {
+  --bg: #0F1310;
+  --panel: #171C18;
+  --line: #2A312B;
+  --ink: #EEE8DF;
+  --muted: #9D988E;
+  --accent: #D8262F;
+  --font: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --nav-h: 52px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--nav-h) + 12px); }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.6; }
+button { font: inherit; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { max-width: 1200px; margin: 0 auto; padding: 40px 24px 20px; display: grid; gap: 10px; }
+.kicker { margin: 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.kicker b { color: var(--accent); font-weight: 700; }
+h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; font-weight: 700; letter-spacing: -.01em; text-wrap: balance; }
+
+.nav { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+.nav ol { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: var(--nav-h); display: flex; gap: 6px; align-items: center; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.nav a { display: block; white-space: nowrap; padding: 6px 12px; border-radius: 999px; font-size: 14px; color: var(--muted); text-decoration: none; border: 1px solid transparent; }
+.nav a b { color: var(--accent); font-weight: 700; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.nav a:hover, .nav a.on { color: var(--ink); border-color: var(--line); background: var(--panel); }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 28px 24px 72px; display: grid; gap: 72px; }
+.group { display: grid; gap: 24px; }
+.g-head { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.g-no { grid-row: span 2; font-size: 40px; line-height: 1; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.g-head h2 { margin: 0; font-size: 24px; line-height: 1.3; }
+.g-spec { margin: 0; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sub { margin: 0; font-size: 17px; font-weight: 700; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.sub span { font-size: 13px; font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* PC·모바일 나란히 */
+.pairs { display: grid; gap: 28px; }
+.pair { margin: 0; display: grid; gap: 10px; }
+.pair figcaption { font-weight: 700; font-size: 16px; }
+.pair-row { display: grid; grid-template-columns: minmax(0, 1fr) var(--mo-w, 260px); gap: 16px; align-items: start; }
+.pc, .mo { position: relative; }
+.pc img, .mo img { border-radius: 6px; border: 1px solid var(--line); width: 100%; }
+.tag { position: absolute; left: 8px; top: 8px; font-size: 11px; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; background: rgba(15, 19, 16, .78); color: var(--ink); }
+.hero .pair-row { --mo-w: 240px; }
+
+/* 영상 */
+.vblock { display: grid; gap: 14px; }
+.v-grid { display: grid; gap: 24px; align-items: start; }
+.is-wide .v-grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
+.is-tall .v-grid { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); }
+.v-main { display: grid; gap: 10px; position: sticky; top: calc(var(--nav-h) + 16px); }
+.player { display: grid; gap: 10px; }
+.frame { position: relative; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+.frame video { display: block; width: 100%; height: auto; cursor: pointer; }
+.is-wide .frame video, .story .frame video { aspect-ratio: 16 / 9; }
+.is-tall .frame video { aspect-ratio: 4 / 5; }
+.frame:fullscreen { display: grid; place-items: center; border: 0; border-radius: 0; }
+.frame:fullscreen video { width: 100%; height: 100%; object-fit: contain; aspect-ratio: auto; }
+.big { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border: 0; border-radius: 50%; background: rgba(15, 19, 16, .72); display: none; place-items: center; cursor: pointer; }
+.big svg { width: 28px; height: 28px; fill: var(--ink); margin-left: 3px; }
+.frame.paused .big { display: grid; }
+.ctrl { display: flex; align-items: center; gap: 12px; }
+.ctrl button { padding: 5px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); font-size: 13px; cursor: pointer; }
+.ctrl button:hover { border-color: var(--muted); }
+.ctrl .fs { margin-left: auto; }
+.time { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.timeline { position: relative; }
+.segs { display: flex; gap: 3px; }
+.seg { height: 26px; min-width: 0; padding: 0; border: 0; border-radius: 4px; background: var(--panel); color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; cursor: pointer; }
+.seg:hover { color: var(--ink); }
+.seg.on { background: var(--accent); color: #fff; }
+.head { position: absolute; top: -3px; bottom: -3px; width: 2px; left: 0; background: var(--ink); border-radius: 1px; pointer-events: none; }
+.v-note { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: 65ch; }
+.home-videos { display: grid; gap: 48px; }
+
+.scenes { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.scene { width: 100%; display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center; text-align: left; padding: 8px; background: transparent; border: 1px solid transparent; border-left: 3px solid transparent; border-radius: 8px; cursor: pointer; }
+.is-tall .scene { grid-template-columns: 72px 1fr; }
+.scene:hover { background: var(--panel); }
+.scene.on { background: var(--panel); border-color: var(--line); border-left-color: var(--accent); }
+.scene img { width: 100%; border-radius: 5px; }
+.sc-body { display: grid; gap: 1px; min-width: 0; }
+.sc-time { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sc-len { margin-left: 8px; opacity: .8; }
+.eb { font-size: 11px; letter-spacing: .12em; color: var(--accent); }
+.sc-h { font-weight: 700; font-size: 16px; line-height: 1.4; }
+.nocap { font-weight: 400; color: var(--muted); }
+.sc-desc { font-size: 13px; color: var(--muted); }
+.src { color: var(--ink); opacity: .75; }
+
+/* 쇼핑스토리 */
+.story { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.story-flow { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #000; }
+.story-img { margin: 0; position: relative; }
+.story-img figcaption { position: absolute; right: 8px; top: 8px; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(15, 19, 16, .78); color: var(--ink); }
+.story-video { padding: 18px 16px 20px; background: var(--panel); display: grid; gap: 10px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.story-label { margin: 0; font-size: 12px; letter-spacing: .06em; color: var(--muted); }
+.story-side { display: grid; gap: 14px; position: sticky; top: calc(var(--nav-h) + 16px); }
+
+.foot { border-top: 1px solid var(--line); padding-top: 20px; font-size: 13px; color: var(--muted); }
+.foot p { margin: 0; }
+
+@media (max-width: 960px) {
+  .is-wide .v-grid, .is-tall .v-grid { grid-template-columns: 1fr; }
+  .is-tall .v-main { max-width: 400px; }
+  .v-main, .story-side { position: static; }
+  .story { grid-template-columns: 1fr; }
+  .story-flow { max-width: 560px; }
+}
+@media (max-width: 640px) {
+  .pair-row { grid-template-columns: 1fr; }
+  .mo { max-width: 300px; }
+}
+@media (max-width: 420px) {
+  .top { padding: 28px 16px 16px; }
+  .nav ol { padding: 0 16px; }
+  .wrap { padding: 24px 16px 56px; gap: 56px; }
+  .scene { grid-template-columns: 96px 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <p class="kicker"><b>MAHLKÖNIG</b> 말코닉 코리아 · 2026.11.17</p>
+  <h1>브랜드스토어 리뉴얼 미리보기</h1>
+</header>
+<nav class="nav" aria-label="묶음 이동"><ol><li><a href="#hero"><b>01</b>메인 HERO</a></li><li><a href="#home-video"><b>02</b>홈 동영상</a></li><li><a href="#category"><b>03</b>카테고리 배너</a></li><li><a href="#service"><b>04</b>SERVICE 띠배너</a></li><li><a href="#shopping-story"><b>05</b>쇼핑스토리 X64 SD</a></li></ol></nav>
+<main class="wrap">
+  <section class="group" id="hero">
+    <header class="g-head">
+      <span class="g-no">01</span>
+      <h2>메인 HERO</h2>
+      <p class="g-spec">홈 맨 위 메인 배너 · PC 1920×790 · 모바일 750×1400</p>
+    </header>
+    <div class="pairs hero">
+      <figure class="pair">
+        <figcaption>메인 배너</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/hero_pc.jpg" alt="메인 배너 PC" width="1920" height="790" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/hero_mo.jpg" alt="메인 배너 모바일" width="750" height="1400" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+  <section class="group" id="home-video">
+    <header class="g-head">
+      <span class="g-no">02</span>
+      <h2>홈 동영상</h2>
+      <p class="g-spec">홈 위쪽 동영상 · PC·모바일 따로 등록</p>
+    </header>
+    <div class="home-videos">
+    <div class="vblock is-wide" data-dur="18.2">
+      <h3 class="sub">PC<span>16:9 · 1920×1080 · 18.2초 · 6장면</span></h3>
+      <div class="v-grid">
+        <div class="v-main">
+        <div class="player">
+          <div class="frame paused">
+            <video src="v/home_pc_16x9.mp4" poster="thumbs/home_pc_16x9_poster.jpg" muted playsinline loop preload="metadata" aria-label="PC 영상"></video>
+            <button class="big" type="button" aria-label="재생"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+          </div>
+          <div class="ctrl">
+            <button class="pp" type="button">재생</button>
+            <span class="time">0:00.0 / 0:18.2</span>
+            <button class="fs" type="button">전체 화면</button>
+          </div>
+          <div class="timeline" aria-label="장면 구간">
+            <div class="segs"><button class="seg" type="button" data-t="0.0" style="flex:2.90" aria-label="1번 장면으로 이동">1</button><button class="seg" type="button" data-t="2.9" style="flex:2.60" aria-label="2번 장면으로 이동">2</button><button class="seg" type="button" data-t="5.5" style="flex:2.40" aria-label="3번 장면으로 이동">3</button><button class="seg" type="button" data-t="7.9" style="flex:2.40" aria-label="4번 장면으로 이동">4</button><button class="seg" type="button" data-t="10.3" style="flex:2.70" aria-label="5번 장면으로 이동">5</button><button class="seg" type="button" data-t="13.0" style="flex:5.20" aria-label="6번 장면으로 이동">6</button></div>
+            <div class="head" aria-hidden="true"></div>
+          </div>
+        </div>
+          <p class="v-note">카페 장면으로 시작해 집 주방의 X64로 넘어가는 흐름이에요. 쇼핑스토리 영상과 겹치는 컷은 쓰지 않았어요.</p>
+        </div>
+        <ol class="scenes">
+          <li><button class="scene" type="button" data-t="0.0">
+            <img src="thumbs/home_pc_16x9_0.jpg" alt="1번 장면: 완성된 라테아트를 들어 보이는 장면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:00.0 – 0:02.9<span class="sc-len">2.9초</span></span>
+              <span class="sc-h">한 잔의 차이는</span>
+              <span class="sc-desc">완성된 라테아트를 들어 보이는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="2.9">
+            <img src="thumbs/home_pc_16x9_1.jpg" alt="2번 장면: X64가 도징컵에 원두를 갈아 내리는 장면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:02.9 – 0:05.5<span class="sc-len">2.6초</span></span>
+              <span class="sc-h">분쇄에서 시작돼요</span>
+              <span class="sc-desc">X64가 도징컵에 원두를 갈아 내리는 장면 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="5.5">
+            <img src="thumbs/home_pc_16x9_2.jpg" alt="3번 장면: 에스프레소 위에 크림을 붓는 장면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:05.5 – 0:07.9<span class="sc-len">2.4초</span></span>
+              <span class="sc-h"><span class="nocap">자막 없음</span></span>
+              <span class="sc-desc">에스프레소 위에 크림을 붓는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="7.9">
+            <img src="thumbs/home_pc_16x9_3.jpg" alt="4번 장면: 잔에 커피를 붓는 장면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:07.9 – 0:10.3<span class="sc-len">2.4초</span></span>
+              <span class="sc-h"><span class="nocap">자막 없음</span></span>
+              <span class="sc-desc">잔에 커피를 붓는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="10.3">
+            <img src="thumbs/home_pc_16x9_4.jpg" alt="5번 장면: 집 주방에 놓인 X64 정면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:10.3 – 0:13.0<span class="sc-len">2.7초</span></span>
+              <span class="eb">THE KING IS COMING HOME</span><span class="sc-h">이제 집에서도, 말코닉</span>
+              <span class="sc-desc">집 주방에 놓인 X64 정면 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="13.0">
+            <img src="thumbs/home_pc_16x9_5.jpg" alt="6번 장면: 본사 공식 로고 애니메이션" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:13.0 – 0:18.2<span class="sc-len">5.2초</span></span>
+              <span class="eb">THE KING OF GRINDERS</span><span class="sc-h">말코닉 X64 SD · 싱글도즈 홈 그라인더</span>
+              <span class="sc-desc">본사 공식 로고 애니메이션 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+        </ol>
+      </div>
+    </div>
+    <div class="vblock is-tall" data-dur="18.2">
+      <h3 class="sub">모바일<span>4:5 · 1080×1350 · 18.2초 · 6장면</span></h3>
+      <div class="v-grid">
+        <div class="v-main">
+        <div class="player">
+          <div class="frame paused">
+            <video src="v/home_mo_4x5.mp4" poster="thumbs/home_mo_4x5_poster.jpg" muted playsinline loop preload="metadata" aria-label="모바일 영상"></video>
+            <button class="big" type="button" aria-label="재생"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+          </div>
+          <div class="ctrl">
+            <button class="pp" type="button">재생</button>
+            <span class="time">0:00.0 / 0:18.2</span>
+            <button class="fs" type="button">전체 화면</button>
+          </div>
+          <div class="timeline" aria-label="장면 구간">
+            <div class="segs"><button class="seg" type="button" data-t="0.0" style="flex:2.90" aria-label="1번 장면으로 이동">1</button><button class="seg" type="button" data-t="2.9" style="flex:2.60" aria-label="2번 장면으로 이동">2</button><button class="seg" type="button" data-t="5.5" style="flex:2.40" aria-label="3번 장면으로 이동">3</button><button class="seg" type="button" data-t="7.9" style="flex:2.40" aria-label="4번 장면으로 이동">4</button><button class="seg" type="button" data-t="10.3" style="flex:2.70" aria-label="5번 장면으로 이동">5</button><button class="seg" type="button" data-t="13.0" style="flex:5.20" aria-label="6번 장면으로 이동">6</button></div>
+            <div class="head" aria-hidden="true"></div>
+          </div>
+        </div>
+          <p class="v-note">PC와 같은 장면을 모바일 화면 비율(4:5)로 다시 잡았어요. 휴대폰에서 화면을 더 크게 채워요.</p>
+        </div>
+        <ol class="scenes">
+          <li><button class="scene" type="button" data-t="0.0">
+            <img src="thumbs/home_mo_4x5_0.jpg" alt="1번 장면: 완성된 라테아트를 들어 보이는 장면" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:00.0 – 0:02.9<span class="sc-len">2.9초</span></span>
+              <span class="sc-h">한 잔의 차이는</span>
+              <span class="sc-desc">완성된 라테아트를 들어 보이는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="2.9">
+            <img src="thumbs/home_mo_4x5_1.jpg" alt="2번 장면: X64가 도징컵에 원두를 갈아 내리는 장면" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:02.9 – 0:05.5<span class="sc-len">2.6초</span></span>
+              <span class="sc-h">분쇄에서 시작돼요</span>
+              <span class="sc-desc">X64가 도징컵에 원두를 갈아 내리는 장면 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="5.5">
+            <img src="thumbs/home_mo_4x5_2.jpg" alt="3번 장면: 에스프레소 위에 크림을 붓는 장면" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:05.5 – 0:07.9<span class="sc-len">2.4초</span></span>
+              <span class="sc-h"><span class="nocap">자막 없음</span></span>
+              <span class="sc-desc">에스프레소 위에 크림을 붓는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="7.9">
+            <img src="thumbs/home_mo_4x5_3.jpg" alt="4번 장면: 잔에 커피를 붓는 장면" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:07.9 – 0:10.3<span class="sc-len">2.4초</span></span>
+              <span class="sc-h"><span class="nocap">자막 없음</span></span>
+              <span class="sc-desc">잔에 커피를 붓는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="10.3">
+            <img src="thumbs/home_mo_4x5_4.jpg" alt="5번 장면: 집 주방에 놓인 X64 정면" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:10.3 – 0:13.0<span class="sc-len">2.7초</span></span>
+              <span class="eb">THE KING IS COMING HOME</span><span class="sc-h">이제 집에서도, 말코닉</span>
+              <span class="sc-desc">집 주방에 놓인 X64 정면 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="13.0">
+            <img src="thumbs/home_mo_4x5_5.jpg" alt="6번 장면: 본사 공식 로고 애니메이션" loading="lazy" width="144" height="180">
+            <span class="sc-body">
+              <span class="sc-time">0:13.0 – 0:18.2<span class="sc-len">5.2초</span></span>
+              <span class="eb">THE KING OF GRINDERS</span><span class="sc-h">말코닉 X64 SD · 싱글도즈 홈 그라인더</span>
+              <span class="sc-desc">본사 공식 로고 애니메이션 · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+        </ol>
+      </div>
+    </div>
+    </div>
+  </section>
+  <section class="group" id="category">
+    <header class="g-head">
+      <span class="g-no">03</span>
+      <h2>카테고리 배너</h2>
+      <p class="g-spec">카테고리 상단 배너 · PC 1920×400 · 모바일 750×360</p>
+    </header>
+    <div class="pairs">
+      <figure class="pair">
+        <figcaption>02 원두 큐레이션</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/cat02_pc.jpg" alt="02 원두 큐레이션 PC" width="1920" height="400" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/cat02_mo.jpg" alt="02 원두 큐레이션 모바일" width="750" height="360" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+      <figure class="pair">
+        <figcaption>03 부품 &amp; 액세서리</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/cat03_pc.jpg" alt="03 부품 &amp; 액세서리 PC" width="1920" height="400" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/cat03_mo.jpg" alt="03 부품 &amp; 액세서리 모바일" width="750" height="360" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+  <section class="group" id="service">
+    <header class="g-head">
+      <span class="g-no">04</span>
+      <h2>SERVICE 띠배너</h2>
+      <p class="g-spec">홈 띠배너 3종 · PC 1920×170 · 모바일 750×180</p>
+    </header>
+    <div class="pairs">
+      <figure class="pair">
+        <figcaption>01 사용 가이드</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/svc01_pc.jpg" alt="01 사용 가이드 PC" width="1920" height="170" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/svc01_mo.jpg" alt="01 사용 가이드 모바일" width="750" height="180" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+      <figure class="pair">
+        <figcaption>02 멤버십 라운지</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/svc02_pc.jpg" alt="02 멤버십 라운지 PC" width="1920" height="170" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/svc02_mo.jpg" alt="02 멤버십 라운지 모바일" width="750" height="180" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+      <figure class="pair">
+        <figcaption>03 고객지원</figcaption>
+        <div class="pair-row">
+          <div class="pc"><img src="img/svc03_pc.jpg" alt="03 고객지원 PC" width="1920" height="170" loading="lazy"><span class="tag">PC</span></div>
+          <div class="mo"><img src="img/svc03_mo.jpg" alt="03 고객지원 모바일" width="750" height="180" loading="lazy"><span class="tag">모바일</span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+  <section class="group" id="shopping-story">
+    <header class="g-head">
+      <span class="g-no">05</span>
+      <h2>쇼핑스토리 X64 SD</h2>
+      <p class="g-spec">본문 가로 848 · 이미지 10장 + 영상 1편(01 메인 바로 아래)</p>
+    </header>
+    
+    <div class="vblock story" data-dur="21.0">
+      <div class="story-flow">
+                <figure class="story-img"><img src="img/ss00.jpg" alt="쇼핑스토리 00 맨 위 (848×477)" width="1696" height="954" loading="lazy"><figcaption>00 맨 위 (848×477)</figcaption></figure>
+        <figure class="story-img"><img src="img/ss01.jpg" alt="쇼핑스토리 01 메인" width="1696" height="2944" loading="lazy"><figcaption>01 메인</figcaption></figure>
+        <div class="story-video">
+          <p class="story-label">영상 · 16:9 · 21.0초</p>
+          <div class="player">
+          <div class="frame paused">
+            <video src="v/shopstory_16x9.mp4" poster="thumbs/shopstory_16x9_poster.jpg" muted playsinline loop preload="metadata" aria-label="쇼핑스토리 영상 영상"></video>
+            <button class="big" type="button" aria-label="재생"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+          </div>
+          <div class="ctrl">
+            <button class="pp" type="button">재생</button>
+            <span class="time">0:00.0 / 0:21.0</span>
+            <button class="fs" type="button">전체 화면</button>
+          </div>
+          <div class="timeline" aria-label="장면 구간">
+            <div class="segs"><button class="seg" type="button" data-t="0.0" style="flex:3.00" aria-label="1번 장면으로 이동">1</button><button class="seg" type="button" data-t="3.0" style="flex:2.00" aria-label="2번 장면으로 이동">2</button><button class="seg" type="button" data-t="5.0" style="flex:2.00" aria-label="3번 장면으로 이동">3</button><button class="seg" type="button" data-t="7.0" style="flex:2.60" aria-label="4번 장면으로 이동">4</button><button class="seg" type="button" data-t="9.6" style="flex:2.80" aria-label="5번 장면으로 이동">5</button><button class="seg" type="button" data-t="12.4" style="flex:2.20" aria-label="6번 장면으로 이동">6</button><button class="seg" type="button" data-t="14.6" style="flex:2.80" aria-label="7번 장면으로 이동">7</button><button class="seg" type="button" data-t="17.4" style="flex:3.60" aria-label="8번 장면으로 이동">8</button></div>
+            <div class="head" aria-hidden="true"></div>
+          </div>
+        </div>
+        </div>
+        <figure class="story-img"><img src="img/ss02-1.jpg" alt="쇼핑스토리 02-1 싱글도즈" width="1696" height="2178" loading="lazy"><figcaption>02-1 싱글도즈</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-2.jpg" alt="쇼핑스토리 02-2 64mm 플랫 버" width="1696" height="1992" loading="lazy"><figcaption>02-2 64mm 플랫 버</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-3.jpg" alt="쇼핑스토리 02-3 분쇄도" width="1696" height="1324" loading="lazy"><figcaption>02-3 분쇄도</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-4.jpg" alt="쇼핑스토리 02-4 에스프레소부터 콜드브루" width="1696" height="1956" loading="lazy"><figcaption>02-4 에스프레소부터 콜드브루</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-5.jpg" alt="쇼핑스토리 02-5 토핑 3종" width="1696" height="3080" loading="lazy"><figcaption>02-5 토핑 3종</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-6.jpg" alt="쇼핑스토리 02-6 저소음" width="1696" height="1410" loading="lazy"><figcaption>02-6 저소음</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-7.jpg" alt="쇼핑스토리 02-7 후기" width="1696" height="2550" loading="lazy"><figcaption>02-7 후기</figcaption></figure>
+        <figure class="story-img"><img src="img/ss02-8.jpg" alt="쇼핑스토리 02-8 색상" width="1696" height="2692" loading="lazy"><figcaption>02-8 색상</figcaption></figure>
+      </div>
+      <aside class="story-side">
+        <h3 class="sub">쇼핑스토리 영상 장면<span>16:9 · 1920×1080 · 21.0초 · 8장면</span></h3>
+        <ol class="scenes">
+          <li><button class="scene" type="button" data-t="0.0">
+            <img src="thumbs/shopstory_16x9_0.jpg" alt="1번 장면: 에스프레소 추출" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:00.0 – 0:03.0<span class="sc-len">3.0초</span></span>
+              <span class="eb">THE KING OF GRINDERS</span><span class="sc-h">한 잔을 위해 만든 그라인더</span>
+              <span class="sc-desc">에스프레소 추출 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="3.0">
+            <img src="thumbs/shopstory_16x9_1.jpg" alt="2번 장면: 마실 만큼만 원두를 붓는 손 (슬로)" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:03.0 – 0:05.0<span class="sc-len">2.0초</span></span>
+              <span class="eb">01 · SINGLE DOSE</span><span class="sc-h">남김 없이, 매번 신선하게</span>
+              <span class="sc-desc">마실 만큼만 원두를 붓는 손 (슬로) · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="5.0">
+            <img src="thumbs/shopstory_16x9_2.jpg" alt="3번 장면: 고르게 갈린 가루 클로즈업 (슬로)" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:05.0 – 0:07.0<span class="sc-len">2.0초</span></span>
+              <span class="eb">02 · 64MM FLAT BURR</span><span class="sc-h">64mm 스페셜 스틸 플랫 버</span>
+              <span class="sc-desc">고르게 갈린 가루 클로즈업 (슬로) · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="7.0">
+            <img src="thumbs/shopstory_16x9_3.jpg" alt="4번 장면: 분쇄도 다이얼을 돌리는 손 (슬로)" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:07.0 – 0:09.6<span class="sc-len">2.6초</span></span>
+              <span class="eb">03 · STEPLESS 0–12</span><span class="sc-h">0~12, 단계 없는 분쇄도 조절</span>
+              <span class="sc-desc">분쇄도 다이얼을 돌리는 손 (슬로) · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="9.6">
+            <img src="thumbs/shopstory_16x9_4.jpg" alt="5번 장면: 얼음 잔에 커피를 붓는 장면" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:09.6 – 0:12.4<span class="sc-len">2.8초</span></span>
+              <span class="eb">04 · ESPRESSO TO COLD BREW</span><span class="sc-h">에스프레소부터 콜드브루까지</span>
+              <span class="sc-desc">얼음 잔에 커피를 붓는 장면 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="12.4">
+            <img src="thumbs/shopstory_16x9_5.jpg" alt="6번 장면: 벨로우를 누르는 손 (슬로)" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:12.4 – 0:14.6<span class="sc-len">2.2초</span></span>
+              <span class="eb">05 · BELLOWS</span><span class="sc-h">벨로우까지 기본 구성</span>
+              <span class="sc-desc">벨로우를 누르는 손 (슬로) · <span class="src">말코닉 본사 영상</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="14.6">
+            <img src="thumbs/shopstory_16x9_6.jpg" alt="7번 장면: 핸드드립" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:14.6 – 0:17.4<span class="sc-len">2.8초</span></span>
+              <span class="eb">06 · QUIET MOTOR</span><span class="sc-h">저소음 모터로 조용하게</span>
+              <span class="sc-desc">핸드드립 · <span class="src">그라데이션커피 촬영</span></span>
+            </span>
+          </button></li>
+          <li><button class="scene" type="button" data-t="17.4">
+            <img src="thumbs/shopstory_16x9_7.jpg" alt="8번 장면: 엔드카드: 블랙·화이트 두 색상과 로고" loading="lazy" width="240" height="135">
+            <span class="sc-body">
+              <span class="sc-time">0:17.4 – 0:21.0<span class="sc-len">3.6초</span></span>
+              <span class="eb">MATTE BLACK · MATTE WHITE</span><span class="sc-h">싱글도즈 홈 그라인더 X64 SD</span>
+              <span class="sc-desc">엔드카드: 블랙·화이트 두 색상과 로고 · <span class="src">공식 제품 이미지</span></span>
+            </span>
+          </button></li>
+        </ol>
+      </aside>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>영상은 장면 썸네일이나 번호 막대를 누르면 그 장면부터 재생돼요.</p>
+  </footer>
+</main>
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmt(t) { var m = Math.floor(t / 60), s = t - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(1); }
+  document.querySelectorAll('.vblock').forEach(function (sec) {
+    var v = sec.querySelector('video');
+    var dur = parseFloat(sec.getAttribute('data-dur'));
+    var rows = Array.prototype.slice.call(sec.querySelectorAll('.scene'));
+    var segs = Array.prototype.slice.call(sec.querySelectorAll('.seg'));
+    var head = sec.querySelector('.head');
+    var frame = sec.querySelector('.frame');
+    var pp = sec.querySelector('.pp');
+    var timeEl = sec.querySelector('.time');
+    var starts = segs.map(function (r) { return parseFloat(r.getAttribute('data-t')); });
+    var cur = -1, raf = 0;
+    function idx(t) { var i = 0; for (var k = 0; k < starts.length; k++) { if (t + 0.001 >= starts[k]) i = k; } return i; }
+    function mark(i) {
+      if (i === cur) return; cur = i;
+      rows.forEach(function (r, k) { r.classList.toggle('on', k === i); });
+      segs.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    }
+    function draw() {
+      var t = v.currentTime || 0;
+      head.style.left = Math.min(100, (t / dur) * 100) + '%';
+      timeEl.textContent = fmt(t) + ' / ' + fmt(dur);
+      mark(idx(t));
+    }
+    function loop() { draw(); if (!v.paused) raf = requestAnimationFrame(loop); }
+    function play() { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    function toggle() { if (v.paused) play(); else v.pause(); }
+    function state() { var paused = v.paused; frame.classList.toggle('paused', paused); pp.textContent = paused ? '재생' : '일시정지'; }
+    function go(t) { try { v.currentTime = t + 0.05; } catch (e) {} draw(); play(); }
+    rows.concat(segs).forEach(function (b) { b.addEventListener('click', function () { go(parseFloat(b.getAttribute('data-t'))); }); });
+    v.addEventListener('click', toggle);
+    sec.querySelector('.big').addEventListener('click', toggle);
+    pp.addEventListener('click', toggle);
+    v.addEventListener('pause', state);
+    v.addEventListener('play', function () { state(); cancelAnimationFrame(raf); if (!reduce) raf = requestAnimationFrame(loop); });
+    v.addEventListener('timeupdate', draw);
+    v.addEventListener('seeked', draw);
+    sec.querySelector('.fs').addEventListener('click', function () {
+      try {
+        if (frame.requestFullscreen) { var r = frame.requestFullscreen(); if (r && r.catch) r.catch(function () { if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); }); }
+        else if (v.webkitEnterFullscreen) { v.webkitEnterFullscreen(); }
+      } catch (e) {}
+    });
+    mark(0);
+  });
+  /* 지금 보고 있는 묶음을 위 메뉴에 표시 */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.group').forEach(function (g) { io.observe(g); });
+  }
+})();
+</script>
+</body>
+</html>
